@@ -1,0 +1,12 @@
+../Drivers/EInk/e-Paper/EPD_4in0e.c:38:13:EPD_4IN0E_Reset	1
+../Drivers/EInk/e-Paper/EPD_4in0e.c:53:13:EPD_4IN0E_SendCommand	1
+../Drivers/EInk/e-Paper/EPD_4in0e.c:66:13:EPD_4IN0E_SendData	1
+../Drivers/EInk/e-Paper/EPD_4in0e.c:78:13:EPD_4IN0E_ReadBusyH	2
+../Drivers/EInk/e-Paper/EPD_4in0e.c:92:13:EPD_4IN0E_TurnOnDisplay	1
+../Drivers/EInk/e-Paper/EPD_4in0e.c:120:6:EPD_4IN0E_Init	1
+../Drivers/EInk/e-Paper/EPD_4in0e.c:194:6:EPD_4IN0E_Clear	3
+../Drivers/EInk/e-Paper/EPD_4in0e.c:214:6:EPD_4IN0E_Show7Block	3
+../Drivers/EInk/e-Paper/EPD_4in0e.c:229:6:EPD_4IN0E_Show	10
+../Drivers/EInk/e-Paper/EPD_4in0e.c:274:6:EPD_4IN0E_Display	3
+../Drivers/EInk/e-Paper/EPD_4in0e.c:289:6:EPD_4IN0E_DisplayPart	8
+../Drivers/EInk/e-Paper/EPD_4in0e.c:314:6:EPD_4IN0E_Sleep	1

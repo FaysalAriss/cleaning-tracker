@@ -1,0 +1,3 @@
+../MyDrivers/RTC/ds_3231.c:25:19:RTC_set_register_value	1
+../MyDrivers/RTC/ds_3231.c:36:19:RTC_read_register_value	1
+../MyDrivers/RTC/ds_3231.c:44:19:RTC_handle_interrupt	1
