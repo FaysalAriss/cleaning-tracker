@@ -95,7 +95,7 @@ int main(void)
   MX_SPI1_Init();
   /* USER CODE BEGIN 2 */
   RTC_handle_interrupt(&hi2c1);
-  //draw_UI();
+  draw_UI();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -277,14 +277,20 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
+  /*Configure GPIO pins : SWITCH_LEFT_Pin SWITCH_RIGHT_Pin */
+  GPIO_InitStruct.Pin = SWITCH_LEFT_Pin|SWITCH_RIGHT_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
   /* EXTI interrupt init*/
-  HAL_NVIC_SetPriority(EXTI0_IRQn, 0, 0);
+  HAL_NVIC_SetPriority(EXTI0_IRQn, 1, 0);
   HAL_NVIC_EnableIRQ(EXTI0_IRQn);
 
-  HAL_NVIC_SetPriority(EXTI1_IRQn, 0, 0);
+  HAL_NVIC_SetPriority(EXTI1_IRQn, 1, 0);
   HAL_NVIC_EnableIRQ(EXTI1_IRQn);
 
-  HAL_NVIC_SetPriority(EXTI9_5_IRQn, 0, 0);
+  HAL_NVIC_SetPriority(EXTI9_5_IRQn, 1, 0);
   HAL_NVIC_EnableIRQ(EXTI9_5_IRQn);
 
   /* USER CODE BEGIN MX_GPIO_Init_2 */
@@ -298,6 +304,20 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
 		RTC_handle_interrupt(&hi2c1);
 	}else if(GPIO_Pin == LEFT_BUTTON_Pin || GPIO_Pin == RIGHT_BUTTON_Pin){
 		HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
+	}else if(GPIO_Pin == SWITCH_LEFT_Pin){
+		HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
+		HAL_Delay(250);
+		HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
+		HAL_Delay(250);
+	}else if(GPIO_Pin == SWITCH_RIGHT_Pin){
+		HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
+		HAL_Delay(250);
+		HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
+		HAL_Delay(250);
+		HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
+		HAL_Delay(250);
+		HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
+		HAL_Delay(250);
 	}else{
 		__NOP();
 	}

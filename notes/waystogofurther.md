@@ -14,6 +14,7 @@ additions:
 - add speaker with confetti chime
 - use an rtc that needs an external oscillator
 - unique way to check off that you're done. simulating paper rip?
+- add battery (with charging)
 
 case:
 - design a case to be CNCed out of translucent plastic (made by me or order online)
