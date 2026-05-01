@@ -57,28 +57,16 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define LED__Pin GPIO_PIN_13
-#define LED__GPIO_Port GPIOC
-#define RTC_WKUP_Pin GPIO_PIN_0
-#define RTC_WKUP_GPIO_Port GPIOA
-#define BTN_WKUP1_Pin GPIO_PIN_1
-#define BTN_WKUP1_GPIO_Port GPIOA
-#define BTN_WKUP2_Pin GPIO_PIN_2
-#define BTN_WKUP2_GPIO_Port GPIOA
-#define EPD_RST_Pin GPIO_PIN_3
-#define EPD_RST_GPIO_Port GPIOA
-#define EPD_DC_Pin GPIO_PIN_4
-#define EPD_DC_GPIO_Port GPIOA
-#define EPD_SCK_Pin GPIO_PIN_5
-#define EPD_SCK_GPIO_Port GPIOA
-#define EPD_BUSY_Pin GPIO_PIN_6
-#define EPD_BUSY_GPIO_Port GPIOA
-#define EPD_MOSI_Pin GPIO_PIN_7
-#define EPD_MOSI_GPIO_Port GPIOA
-#define EPD_CS_Pin GPIO_PIN_0
-#define EPD_CS_GPIO_Port GPIOB
-#define EPD_PWR_Pin GPIO_PIN_1
-#define EPD_PWR_GPIO_Port GPIOB
+#define SW_LEFT_Pin GPIO_PIN_13
+#define SW_LEFT_GPIO_Port GPIOC
+#define SW_RIGHT_Pin GPIO_PIN_0
+#define SW_RIGHT_GPIO_Port GPIOA
+#define BTN1_WKUP_Pin GPIO_PIN_1
+#define BTN1_WKUP_GPIO_Port GPIOA
+#define BTN2_WKUP_Pin GPIO_PIN_2
+#define BTN2_WKUP_GPIO_Port GPIOA
+#define RTC_WKUP_Pin GPIO_PIN_15
+#define RTC_WKUP_GPIO_Port GPIOB
 #define RTC_SCL_Pin GPIO_PIN_9
 #define RTC_SCL_GPIO_Port GPIOA
 #define RTC_SDA_Pin GPIO_PIN_10
@@ -87,6 +75,20 @@ void Error_Handler(void);
 #define SWDIO_GPIO_Port GPIOA
 #define SWCLK_Pin GPIO_PIN_14
 #define SWCLK_GPIO_Port GPIOA
+#define EPD_PWR_Pin GPIO_PIN_15
+#define EPD_PWR_GPIO_Port GPIOA
+#define EPD_SCK_Pin GPIO_PIN_3
+#define EPD_SCK_GPIO_Port GPIOB
+#define EPD_SDA_Pin GPIO_PIN_5
+#define EPD_SDA_GPIO_Port GPIOB
+#define EPD_CS_Pin GPIO_PIN_6
+#define EPD_CS_GPIO_Port GPIOB
+#define EPD_DC_Pin GPIO_PIN_7
+#define EPD_DC_GPIO_Port GPIOB
+#define EPD_RST_Pin GPIO_PIN_8
+#define EPD_RST_GPIO_Port GPIOB
+#define EPD_BUSY_Pin GPIO_PIN_9
+#define EPD_BUSY_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
 
