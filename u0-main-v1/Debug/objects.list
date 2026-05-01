@@ -23,7 +23,7 @@
 "./MyDrivers/EPD/Fonts/font24CN.o"
 "./MyDrivers/EPD/Fonts/font8.o"
 "./MyDrivers/EPD/GUI/GUI_Paint.o"
-"./MyDrivers/RTC/rv_3028.o"
+"./MyDrivers/RTC/RV3028.o"
 "./Src/main.o"
 "./Src/stm32u0xx_hal_msp.o"
 "./Src/stm32u0xx_it.o"

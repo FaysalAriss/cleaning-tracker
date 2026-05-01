@@ -1,2 +1,0 @@
-../MyDrivers/RTC/rv_3028.c:24:19:RTC_set_register_value	48	static
-../MyDrivers/RTC/rv_3028.c:35:19:RTC_read_register_value	48	static

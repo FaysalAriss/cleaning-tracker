@@ -67,6 +67,7 @@ void Error_Handler(void);
 #define BTN2_WKUP_GPIO_Port GPIOA
 #define RTC_WKUP_Pin GPIO_PIN_15
 #define RTC_WKUP_GPIO_Port GPIOB
+#define RTC_WKUP_EXTI_IRQn EXTI4_15_IRQn
 #define RTC_SCL_Pin GPIO_PIN_9
 #define RTC_SCL_GPIO_Port GPIOA
 #define RTC_SDA_Pin GPIO_PIN_10

@@ -27,10 +27,7 @@ Src/main.o: ../Src/main.c ../Inc/main.h \
  ../Drivers/STM32U0xx_HAL_Driver/Inc/stm32u0xx_hal_i2c_ex.h \
  ../Drivers/STM32U0xx_HAL_Driver/Inc/stm32u0xx_hal_pwr.h \
  ../Drivers/STM32U0xx_HAL_Driver/Inc/stm32u0xx_hal_pwr_ex.h \
- ../MyDrivers/EPD/EPD/Ap_29demo.h ../MyDrivers/EPD/EPD/Display_EPD_W21.h \
- ../MyDrivers/EPD/EPD/Display_EPD_W21_spi.h \
- ../MyDrivers/EPD/Fonts/fonts.h ../MyDrivers/EPD/GUI/GUI_Paint.h \
- ../MyDrivers/EPD/GUI/../../EPD/Fonts/fonts.h ../MyDrivers/RTC/rv_3028.h
+ ../MyDrivers/RTC/RV3028.h
 ../Inc/main.h:
 ../Drivers/STM32U0xx_HAL_Driver/Inc/stm32u0xx_hal.h:
 ../Inc/stm32u0xx_hal_conf.h:
@@ -60,10 +57,4 @@ Src/main.o: ../Src/main.c ../Inc/main.h \
 ../Drivers/STM32U0xx_HAL_Driver/Inc/stm32u0xx_hal_i2c_ex.h:
 ../Drivers/STM32U0xx_HAL_Driver/Inc/stm32u0xx_hal_pwr.h:
 ../Drivers/STM32U0xx_HAL_Driver/Inc/stm32u0xx_hal_pwr_ex.h:
-../MyDrivers/EPD/EPD/Ap_29demo.h:
-../MyDrivers/EPD/EPD/Display_EPD_W21.h:
-../MyDrivers/EPD/EPD/Display_EPD_W21_spi.h:
-../MyDrivers/EPD/Fonts/fonts.h:
-../MyDrivers/EPD/GUI/GUI_Paint.h:
-../MyDrivers/EPD/GUI/../../EPD/Fonts/fonts.h:
-../MyDrivers/RTC/rv_3028.h:
+../MyDrivers/RTC/RV3028.h:

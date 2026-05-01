@@ -5,13 +5,13 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
-../MyDrivers/RTC/rv_3028.c 
+../MyDrivers/RTC/RV3028.c 
 
 OBJS += \
-./MyDrivers/RTC/rv_3028.o 
+./MyDrivers/RTC/RV3028.o 
 
 C_DEPS += \
-./MyDrivers/RTC/rv_3028.d 
+./MyDrivers/RTC/RV3028.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
@@ -21,7 +21,7 @@ MyDrivers/RTC/%.o MyDrivers/RTC/%.su MyDrivers/RTC/%.cyclo: ../MyDrivers/RTC/%.c
 clean: clean-MyDrivers-2f-RTC
 
 clean-MyDrivers-2f-RTC:
-	-$(RM) ./MyDrivers/RTC/rv_3028.cyclo ./MyDrivers/RTC/rv_3028.d ./MyDrivers/RTC/rv_3028.o ./MyDrivers/RTC/rv_3028.su
+	-$(RM) ./MyDrivers/RTC/RV3028.cyclo ./MyDrivers/RTC/RV3028.d ./MyDrivers/RTC/RV3028.o ./MyDrivers/RTC/RV3028.su
 
 .PHONY: clean-MyDrivers-2f-RTC
 

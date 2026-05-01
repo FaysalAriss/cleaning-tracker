@@ -21,26 +21,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-//EPD
-#include "Ap_29demo.h"
-#include "Display_EPD_W21.h"
-#include "Display_EPD_W21_spi.h"
-#include "fonts.h"
-#include "GUI_Paint.h"
-#include "rv_3028.h"
-
-#if 1
-   unsigned char BlackImage[EPD_ARRAY];//Define canvas space
-#endif
-//Tips//
-/*
-1.Flickering is normal when EPD is performing a full screen update to clear ghosting from the previous image so to ensure better clarity and legibility for the new image.
-2.There will be no flicker when EPD performs a partial refresh.
-3.Please make sue that EPD enters sleep mode when update is completed and always leave the sleep mode command. Otherwise, this may result in a reduced lifespan of EPD.
-4.Please refrain from inserting EPD to the FPC socket or unplugging it when the MCU is being powered to prevent potential damage.)
-5.Re-initialization is required for every full screen update.
-6.When porting the program, set the BUSY pin to input mode and other pins to output mode.
-*/
+#include "RV3028.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -110,83 +91,11 @@ int main(void)
   MX_GPIO_Init();
   MX_I2C1_Init();
   /* USER CODE BEGIN 2 */
+  RTC_init(&hi2c1);
 
-  uint8_t val = 0b00000001;
-  RTC_set_register_value(&hi2c1, 0x0E, &val, 1);
-
-
-#if 0
-	//Full screen refresh, fast refresh, and partial update demostration.
-	EPD_Init(); //Full screen update initialization.
-	EPD_WhiteScreen_White(); //Clear screen function.
-	EPD_DeepSleep(); //Enter the sleep mode and please do not delete it, otherwise it will reduce the lifespan of the screen.
-	HAL_Delay(2000); //Delay for 2s.
-
-	/************Full display(2s)*******************/
-	EPD_Init(); //Full screen updateinitialization.
-	EPD_WhiteScreen_ALL(gImage_1); //To Display one image using full screen refresh.
-	EPD_DeepSleep(); //Enter the sleep mode and please do not delete it, otherwise it will reduce the lifespan of the screen.
-	HAL_Delay(2000); //Delay for 2s.
-
-	/************Fast updatemode(1.5s)*******************/
-	EPD_Init_Fast(); //Fast updateinitialization.
-	EPD_WhiteScreen_ALL(gImage_2); //To display one image using fast refresh.
-	EPD_DeepSleep(); //Enter the sleep mode and please do not delete it, otherwise it will reduce the lifespan of the screen.
-	HAL_Delay(2000); //Delay for 2s.
-
-	/************4 Gray updatemode*******************/
-	EPD_Init_4G(); //Fast updateinitialization.
-	EPD_WhiteScreen_ALL_4G(gImage_4G1); //To display one image using fast refresh.
-	EPD_DeepSleep(); //Enter the sleep mode and please do not delete it, otherwise it will reduce the lifespan of the screen.
-	HAL_Delay(2000); //Delay for 2s.
-
-	#if 0
-		//Partial updatedemostration.
-		//Partial updatedemo support displaying a clock at 5 locations with 00:00.  If you need to perform partial updatemore than 5 locations, please use the feature of using partial updateat the full screen demo.
-		//After 5 partial refreshes, implement a full screen updateto clear the ghosting caused by partial refreshes.
-		//////////////////////Partial updatetime demo/////////////////////////////////////
-		EPD_Init(); //Electronic paper initialization.
-		EPD_SetRAMValue_BaseMap(gImage_basemap); //Please do not delete the background color function, otherwise it will cause unstable display during partial refresh.
-		for(int i=0;i<6;i++)
-		{
-		  EPD_Dis_Part_Time(100,120,Num[1],Num[0],gImage_numdot,Num[0],Num[i],5,32,64); //x,y,DATA-A~E,number,Resolution 32*64
-		}
-		EPD_DeepSleep();  //Enter the sleep mode and please do not delete it, otherwise it will reduce the lifespan of the screen.
-		HAL_Delay(2000);	//Delay for 2s.
-		EPD_Init(); //Full screen updateinitialization.
-		EPD_WhiteScreen_White(); //Clear screen function.
-		EPD_DeepSleep(); //Enter the sleep mode and please do not delete it, otherwise it will reduce the lifespan of the screen.
-		HAL_Delay(2000); //Delay for 2s.
-	#endif
-
-	#if 1
-		//Demo of using partial updateto update the full screen, to enable this feature, please change 0 to 1.
-		//After 5 partial refreshes, implement a full screen updateto clear the ghosting caused by partial refreshes.
-		//////////////////////Partial updatetime demo/////////////////////////////////////
-		EPD_Init(); //Full screen updateinitialization.
-		EPD_WhiteScreen_White(); //Clear screen function.
-		EPD_Dis_PartAll(gImage_p1);
-		EPD_Dis_PartAll(gImage_p2);
-		EPD_Dis_PartAll(gImage_p3);
-		EPD_DeepSleep();//Enter the sleep mode and please do not delete it, otherwise it will reduce the lifespan of the screen.
-		HAL_Delay(2000); //Delay for 2s.
-
-		EPD_Init(); //Full screen updateinitialization.
-		EPD_WhiteScreen_White(); //Clear screen function.
-		EPD_DeepSleep(); //Enter the sleep mode and please do not delete it, otherwise it will reduce the lifespan of the screen.
-		HAL_Delay(2000);	//Delay for 2s.
-	#endif
-
-	#if 0
-		//Demonstration of full screen updatewith 180-degree rotation, to enable this feature, please change 0 to 1.
-		/************Full display(2s)*******************/
-		EPD_Init_180(); //Full screen updateinitialization.
-		EPD_WhiteScreen_ALL(gImage_p1); //To Display one image using full screen refresh.
-		EPD_DeepSleep(); //Enter the sleep mode and please do not delete it, otherwise it will reduce the lifespan of the screen.
-		HAL_Delay(2000); //Delay for 2s.
-	#endif
-
-#endif
+  //set time to all 0
+  uint8_t time[] = {0x00,0x00,0x00,0x00,0x00,0x00,0x00};
+  RTC_set_register_value(&hi2c1, 0x00, time, 7);
 
 
 
@@ -196,6 +105,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+	  RTC_handle_interrupt(&hi2c1);
 	  HAL_Delay(1000);
     /* USER CODE END WHILE */
 
@@ -345,6 +255,12 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
+  /*Configure GPIO pin : RTC_WKUP_Pin */
+  GPIO_InitStruct.Pin = RTC_WKUP_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(RTC_WKUP_GPIO_Port, &GPIO_InitStruct);
+
   /*Configure GPIO pin : EPD_PWR_Pin */
   GPIO_InitStruct.Pin = EPD_PWR_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
@@ -372,12 +288,23 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(EPD_BUSY_GPIO_Port, &GPIO_InitStruct);
 
+  /* EXTI interrupt init*/
+  HAL_NVIC_SetPriority(EXTI4_15_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI4_15_IRQn);
+
   /* USER CODE BEGIN MX_GPIO_Init_2 */
 
   /* USER CODE END MX_GPIO_Init_2 */
 }
 
 /* USER CODE BEGIN 4 */
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
+	if(GPIO_Pin == RTC_WKUP_Pin){
+		RTC_handle_interrupt(&hi2c1);
+	}else{
+		__NOP();
+	}
+}
 
 /* USER CODE END 4 */
 

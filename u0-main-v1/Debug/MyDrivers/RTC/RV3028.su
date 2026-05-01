@@ -1,0 +1,4 @@
+../MyDrivers/RTC/RV3028.c:24:19:RTC_set_register_value	48	static
+../MyDrivers/RTC/RV3028.c:35:19:RTC_read_register_value	48	static
+../MyDrivers/RTC/RV3028.c:44:19:RTC_handle_interrupt	24	static
+../MyDrivers/RTC/RV3028.c:54:19:RTC_init	32	static
