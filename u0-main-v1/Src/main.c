@@ -91,13 +91,13 @@ int main(void)
   MX_GPIO_Init();
   MX_I2C1_Init();
   /* USER CODE BEGIN 2 */
+  RTC_handle_interrupt(&hi2c1);
   RTC_init(&hi2c1);
-  HAL_Delay(5000);
-  __HAL_PWR_CLEAR_FLAG(PWR_FLAG_SB);
+  uint8_t time[] = {0b01011000,0x00,0x00,0x00,0x00,0x00,0x00};
+  RTC_set_register_value(&hi2c1, 0x00, time, 7);
 
-  SET_BIT(PWR->CR1, PWR_CR1_DBP);
-  SET_BIT(RCC->BDCR, RCC_BDCR_BDRST);
-  CLEAR_BIT(RCC->BDCR, RCC_BDCR_BDRST);
+  HAL_Delay(2500);
+  HAL_Delay(2500);
 
   HAL_PWR_EnterSHUTDOWNMode();
 
@@ -302,14 +302,13 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
+void HAL_GPIO_EXTI_Falling_Callback(uint16_t GPIO_Pin){
 	if(GPIO_Pin == RTC_WKUP_Pin){
 		RTC_handle_interrupt(&hi2c1);
 	}else{
 		__NOP();
 	}
 }
-
 /* USER CODE END 4 */
 
 /**

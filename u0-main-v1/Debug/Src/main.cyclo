@@ -2,5 +2,6 @@
 ../Src/main.c:125:6:SystemClock_Config	3
 ../Src/main.c:164:13:MX_I2C1_Init	4
 ../Src/main.c:212:13:MX_GPIO_Init	1
-../Src/main.c:305:6:HAL_GPIO_EXTI_Callback	2
-../Src/main.c:319:6:Error_Handler	1
+../Src/main.c:305:6:HAL_GPIO_EXTI_Falling_Callback	2
+../Src/main.c:314:6:HAL_GPIO_EXTI_Rising_Callback	2
+../Src/main.c:329:6:Error_Handler	1
