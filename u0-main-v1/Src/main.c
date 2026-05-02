@@ -92,10 +92,14 @@ int main(void)
   MX_I2C1_Init();
   /* USER CODE BEGIN 2 */
   RTC_init(&hi2c1);
+  HAL_Delay(5000);
+  __HAL_PWR_CLEAR_FLAG(PWR_FLAG_SB);
 
-  //set time to all 0
-  uint8_t time[] = {0x00,0x00,0x00,0x00,0x00,0x00,0x00};
-  RTC_set_register_value(&hi2c1, 0x00, time, 7);
+  SET_BIT(PWR->CR1, PWR_CR1_DBP);
+  SET_BIT(RCC->BDCR, RCC_BDCR_BDRST);
+  CLEAR_BIT(RCC->BDCR, RCC_BDCR_BDRST);
+
+  HAL_PWR_EnterSHUTDOWNMode();
 
 
 
