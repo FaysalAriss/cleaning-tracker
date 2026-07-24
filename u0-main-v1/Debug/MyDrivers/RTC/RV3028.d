@@ -27,7 +27,7 @@ MyDrivers/RTC/RV3028.o: ../MyDrivers/RTC/RV3028.c \
  ../Drivers/STM32U0xx_HAL_Driver/Inc/stm32u0xx_hal_i2c.h \
  ../Drivers/STM32U0xx_HAL_Driver/Inc/stm32u0xx_hal_i2c_ex.h \
  ../Drivers/STM32U0xx_HAL_Driver/Inc/stm32u0xx_hal_pwr.h \
- ../Drivers/STM32U0xx_HAL_Driver/Inc/stm32u0xx_hal_pwr_ex.h
+ ../Drivers/STM32U0xx_HAL_Driver/Inc/stm32u0xx_hal_pwr_ex.h ../Inc/main.h
 ../MyDrivers/RTC/RV3028.h:
 ../Drivers/STM32U0xx_HAL_Driver/Inc/stm32u0xx_hal.h:
 ../Inc/stm32u0xx_hal_conf.h:
@@ -57,3 +57,4 @@ MyDrivers/RTC/RV3028.o: ../MyDrivers/RTC/RV3028.c \
 ../Drivers/STM32U0xx_HAL_Driver/Inc/stm32u0xx_hal_i2c_ex.h:
 ../Drivers/STM32U0xx_HAL_Driver/Inc/stm32u0xx_hal_pwr.h:
 ../Drivers/STM32U0xx_HAL_Driver/Inc/stm32u0xx_hal_pwr_ex.h:
+../Inc/main.h:

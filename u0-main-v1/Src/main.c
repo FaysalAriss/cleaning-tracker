@@ -91,16 +91,24 @@ int main(void)
   MX_GPIO_Init();
   MX_I2C1_Init();
   /* USER CODE BEGIN 2 */
-  RTC_handle_interrupt(&hi2c1);
-  RTC_init(&hi2c1);
-  uint8_t time[] = {0b01011000,0x00,0x00,0x00,0x00,0x00,0x00};
-  RTC_set_register_value(&hi2c1, 0x00, time, 7);
+  HAL_Delay(3000);
+  //uint8_t status[3];
+  //RTC_read_register_value(&hi2c1, 0x0E, status, 3);
+  HAL_StatusTypeDef status = RTC_init(&hi2c1);
+  if(status == HAL_OK){
+	  //set time to 20 seconds before interrupt
+	  uint8_t time[] = {0b01000000,0x00,0x00,0x00,0b00000001,0b00000001,0x00};
+	  status = RTC_set_register_value(&hi2c1, 0x00, time, 7);
+	  if(status == HAL_OK){
+		  //DO NOT REMOVE. Delay so I can reprogram MCU
+		  HAL_Delay(5000);
 
-  HAL_Delay(2500);
-  HAL_Delay(2500);
-
-  HAL_PWR_EnterSHUTDOWNMode();
-
+		  RTC_handle_interrupt(&hi2c1);
+		  //clear all the wakeup flags in PWR_SR1
+		  __HAL_PWR_CLEAR_FLAG(PWR_FLAG_WU);
+		  HAL_PWR_EnterSHUTDOWNMode();
+	  }
+  }
 
 
   /* USER CODE END 2 */
@@ -259,12 +267,6 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : RTC_WKUP_Pin */
-  GPIO_InitStruct.Pin = RTC_WKUP_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(RTC_WKUP_GPIO_Port, &GPIO_InitStruct);
-
   /*Configure GPIO pin : EPD_PWR_Pin */
   GPIO_InitStruct.Pin = EPD_PWR_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
@@ -291,10 +293,6 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(EPD_BUSY_GPIO_Port, &GPIO_InitStruct);
-
-  /* EXTI interrupt init*/
-  HAL_NVIC_SetPriority(EXTI4_15_IRQn, 0, 0);
-  HAL_NVIC_EnableIRQ(EXTI4_15_IRQn);
 
   /* USER CODE BEGIN MX_GPIO_Init_2 */
 

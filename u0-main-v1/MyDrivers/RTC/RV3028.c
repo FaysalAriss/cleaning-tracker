@@ -6,6 +6,7 @@
  */
 
 #include "RV3028.h"
+#include "main.h"
 
 /**
  * For all the following functions:
@@ -52,6 +53,8 @@ HAL_StatusTypeDef RTC_handle_interrupt(I2C_HandleTypeDef *hi2c){
  * @retval HAL status
  */
 HAL_StatusTypeDef RTC_init(I2C_HandleTypeDef *hi2c){
+
+
 	//disable clkout to use less power, since we don't need it (as specified in datasheet)
 	uint8_t fd = 0b00000111; //disable using fd = 111
 	HAL_TRY(RTC_set_register_value(hi2c, 0x35, &fd, 1));
@@ -62,9 +65,13 @@ HAL_StatusTypeDef RTC_init(I2C_HandleTypeDef *hi2c){
 	uint8_t midnight = 0x0;
 	HAL_TRY(RTC_set_register_value(hi2c, 0x08, &midnight, 1));
 
-	//temporary minutes alarm
+	//temporary minutes alarm at 1 minute
 	uint8_t minutes = 0x1;
 	HAL_TRY(RTC_set_register_value(hi2c, 0x07, &minutes, 1));
+
+	//enable wake when RTC throws interrupt
+	RTC_handle_interrupt(hi2c);
+	HAL_PWR_EnableWakeUpPin(PWR_WAKEUP_PIN7_LOW);
 
 	return HAL_OK; //no previous HAL_TRY returned so all good
 }

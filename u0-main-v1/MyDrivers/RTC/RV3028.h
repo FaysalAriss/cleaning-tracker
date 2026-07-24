@@ -13,6 +13,7 @@
 #define RV3028_ADDRESS 0b10100100
 #define TIMEOUT HAL_MAX_DELAY
 
+//return early if HAL error
 #define HAL_TRY(expr) do{ \
 		HAL_StatusTypeDef status = (expr); \
 		if (status != HAL_OK) return status; \
