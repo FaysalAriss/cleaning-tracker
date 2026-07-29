@@ -198,4 +198,10 @@ More image (pcb digital)
 
 ## More images
 
+Final PCB layout:
+
 <img src="docs/daily-journal/notes-logseq/assets/pcb-03-20-front_1774072106471_0.png" width="500">
+
+Using reflow oven on PCB (sped up 8x):
+
+https://github.com/user-attachments/assets/13eb49e6-be4f-45be-9c70-ad4c3cd8cc99
