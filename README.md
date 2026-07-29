@@ -31,11 +31,11 @@
 
 - Custom enclosure (3D printed)
 
-**Most relevant skills demonstrated:** Embedded C, Schematic Capture, PCB Design, STM32 (CubeMX, CubeIDE)
+**Most relevant skills demonstrated:** Embedded C, Schematic Capture, PCB Design, STM32 (CubeMX, CubeIDE), Component Selection and Datasheet Analysis
 
 **What is it/general description**
 
-Cleaning tracker for the bathroom, displays bathroom was cleaned X days ago by Y. Two buttons, once for each person, resets the counter and displays the other persons name.
+Cleaning tracker for the bathroom, displays bathroom was cleaned X days ago by Y. Two buttons, one for each person, resets the counter and displays the other persons name.
 
 ## Background
 
@@ -62,6 +62,8 @@ Most folders will have their own README to get more info. Here is a high level o
 /docs/                  Further documentation
     /daily-journal/     All the daily notes I wrote while working on this projects
     /general.md         Tidbits that I picked up along the way which are relevant to remember while working on this project
+    /backlog.md         Tasks to be done
+    /reference.md       Like general.md but not necesarilly related to this project.
 ```
 
 ### Development Journal
@@ -194,7 +196,7 @@ To update when known:
 
 - Steps to set the time
 
-More image (pcb digital)
+
 
 ## More images
 
