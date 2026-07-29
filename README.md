@@ -174,9 +174,7 @@ Every day I worked on this project I documented what I did in a journal. This in
       - [ ] Figure out why it doesn't stay asleep for the right amount of time when interrupting with RTC
     - [ ] Screen
       - [ ] Rewrite the drivers
-    - [ ] General (buttons, thumbswitch)
-
-## 
+    - [ ] General (buttons, thumbswitch) 
 
 ## Getting started (Build & Flash)
 
@@ -197,3 +195,7 @@ To update when known:
 - Steps to set the time
 
 More image (pcb digital)
+
+## More images
+
+<img src="docs/daily-journal/notes-logseq/assets/pcb-03-20-front_1774072106471_0.png" width="500">
