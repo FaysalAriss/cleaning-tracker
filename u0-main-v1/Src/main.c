@@ -91,7 +91,7 @@ int main(void)
   MX_GPIO_Init();
   MX_I2C1_Init();
   /* USER CODE BEGIN 2 */
-  HAL_Delay(3000);
+  //HAL_Delay(3000);
   //uint8_t status[3];
   //RTC_read_register_value(&hi2c1, 0x0E, status, 3);
   HAL_StatusTypeDef status = RTC_init(&hi2c1);
@@ -104,9 +104,13 @@ int main(void)
 		  HAL_Delay(5000);
 
 		  RTC_handle_interrupt(&hi2c1);
-		  //clear all the wakeup flags in PWR_SR1
-		  __HAL_PWR_CLEAR_FLAG(PWR_FLAG_WU);
-		  HAL_PWR_EnterSHUTDOWNMode();
+		  uint8_t buffer[1];
+		  status = RTC_read_register_value(&hi2c1, 0x0E,  buffer, 1);
+		  if(buffer[0] <= 1){
+			  //clear all the wakeup flags in PWR_SR1
+			  __HAL_PWR_CLEAR_FLAG(PWR_FLAG_WU);
+			  HAL_PWR_EnterSHUTDOWNMode();
+		  }
 	  }
   }
 
@@ -117,7 +121,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  RTC_handle_interrupt(&hi2c1);
+	  //RTC_handle_interrupt(&hi2c1);
 	  HAL_Delay(1000);
     /* USER CODE END WHILE */
 
@@ -302,7 +306,7 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 void HAL_GPIO_EXTI_Falling_Callback(uint16_t GPIO_Pin){
 	if(GPIO_Pin == RTC_WKUP_Pin){
-		RTC_handle_interrupt(&hi2c1);
+		//RTC_handle_interrupt(&hi2c1);
 	}else{
 		__NOP();
 	}

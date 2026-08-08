@@ -44,7 +44,7 @@ HAL_StatusTypeDef RTC_read_register_value(I2C_HandleTypeDef *hi2c, uint8_t regis
   */
 HAL_StatusTypeDef RTC_handle_interrupt(I2C_HandleTypeDef *hi2c){
 	//reset interrupt on RTC
-	uint8_t defaults = 0x1;
+	uint8_t defaults = 0x0;
 	return RTC_set_register_value(hi2c, 0x0E, &defaults, 1); //default values of status register
 }
 
@@ -56,11 +56,9 @@ HAL_StatusTypeDef RTC_init(I2C_HandleTypeDef *hi2c){
 
 
 	//disable clkout to use less power, since we don't need it (as specified in datasheet)
-	uint8_t fd = 0b00000111; //disable using fd = 111
-	HAL_TRY(RTC_set_register_value(hi2c, 0x35, &fd, 1));
-	//set AIE bit in control 2 register high to enable alarm interrupts
-	uint8_t enable_alarm = 0b00001000;
-	HAL_TRY(RTC_set_register_value(hi2c, 0x10, &enable_alarm, 1));
+	//uint8_t fd = 0b00000111; //disable using fd = 111
+	//HAL_TRY(RTC_set_register_value(hi2c, 0x35, &fd, 1));
+
 	//setup hour alarm to trigger at midnight
 	uint8_t midnight = 0x0;
 	HAL_TRY(RTC_set_register_value(hi2c, 0x08, &midnight, 1));
@@ -68,6 +66,10 @@ HAL_StatusTypeDef RTC_init(I2C_HandleTypeDef *hi2c){
 	//temporary minutes alarm at 1 minute
 	uint8_t minutes = 0x1;
 	HAL_TRY(RTC_set_register_value(hi2c, 0x07, &minutes, 1));
+
+	//set AIE bit in control 2 register high to enable alarm interrupts
+	uint8_t enable_alarm = 0b00001000;
+	HAL_TRY(RTC_set_register_value(hi2c, 0x10, &enable_alarm, 1));
 
 	//enable wake when RTC throws interrupt
 	RTC_handle_interrupt(hi2c);
