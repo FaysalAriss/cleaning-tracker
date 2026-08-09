@@ -68,5 +68,8 @@ HAL_StatusTypeDef RTC_init(I2C_HandleTypeDef *hi2c){
 	uint8_t enable_alarm = 0b00001000;
 	HAL_TRY(RTC_set_register_value(hi2c, 0x10, &enable_alarm, 1));
 
+	//wake up on RTC interrupt
+	HAL_PWR_EnableWakeUpPin(PWR_WAKEUP_PIN7_LOW);
+
 	return HAL_OK; //no previous HAL_TRY returned so all good
 }

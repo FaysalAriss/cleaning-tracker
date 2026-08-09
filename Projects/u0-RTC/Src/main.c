@@ -91,44 +91,36 @@ int main(void)
   MX_GPIO_Init();
   MX_I2C1_Init();
   /* USER CODE BEGIN 2 */
-
   //wait until EEbusy low (not busy)
-//  uint8_t buffer[1];
-//  do{
-//	  RTC_read_register_value(&hi2c1, 0x0E, buffer, 1);
-//	  HAL_Delay(10);
-//  } while(buffer[0] & 0b10000000);
+  uint8_t buffer[1];
+  do{
+	  RTC_read_register_value(&hi2c1, 0x0E, buffer, 1);
+	  HAL_Delay(10);
+  } while(buffer[0] & 0b10000000);
 
   HAL_StatusTypeDef status;
 
-  //set time to 20 seconds before interrupt
-  uint8_t time[] = {0x40,0x00,0x00,0x00,0b00000001,0b00000001,0x00};
-  do{ status = RTC_set_register_value(&hi2c1, 0x00, time, 7); HAL_Delay(10); } while(status != HAL_OK);
   do{ status = RTC_init(&hi2c1); HAL_Delay(10); } while(status != HAL_OK);
 
-  HAL_Delay(25000);
+  //set time to 5 seconds before interrupt
+  uint8_t time[] = {0x55,0x00,0x00,0x00,0b00000001,0b00000001,0x00};
+  do{ status = RTC_set_register_value(&hi2c1, 0x00, time, 7); HAL_Delay(10); } while(status != HAL_OK);
 
-  do{ status = RTC_read_register_value(&hi2c1, 0x07, &after[0], 2); HAL_Delay(10);} while(status != HAL_OK);
-  do{ status = RTC_read_register_value(&hi2c1, 0x0E, &after[2], 1); HAL_Delay(10);} while(status != HAL_OK);
-  do{ status = RTC_read_register_value(&hi2c1, 0x10, &after[3], 1); HAL_Delay(10);} while(status != HAL_OK);
-  do{ status = RTC_read_register_value(&hi2c1, 0x35, &after[4], 1); HAL_Delay(10);} while(status != HAL_OK);
-
-  //set communication pin to HIGH if AIE high, else low
-  if(after[3] & 0b00001000){
-	  HAL_GPIO_WritePin(Com_GPIO_Port, Com_Pin, GPIO_PIN_SET);
-  }else{
-	  HAL_GPIO_WritePin(Com_GPIO_Port, Com_Pin, GPIO_PIN_RESET);
-  }
-
-  HAL_Delay(500);
   RTC_handle_interrupt(&hi2c1);
+  //clears the wakeup flags from all pins by writing to power reset register which will clear power status register
+  __HAL_PWR_CLEAR_FLAG(PWR_FLAG_WU);
+  HAL_Delay(3000); //DO NOT REMOVE, delay so debugger has time to connect and flash
+  //Sets SLEEPDEEP bit, LPMS = 1xx in PWR_CR1 register, wakeup on interrupt (WFI)
+  HAL_PWR_EnterSHUTDOWNMode();
+
+  //__HAL_PWR_GET_FLAG(PWR_FLAG_WUF7); high if woke up from wakeup pin 7
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  while (1)
-  {
-	  HAL_Delay(10);
+  while (1){
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
