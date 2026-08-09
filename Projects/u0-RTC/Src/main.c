@@ -93,22 +93,34 @@ int main(void)
   /* USER CODE BEGIN 2 */
 
   //wait until EEbusy low (not busy)
-  uint8_t buffer[1];
-  do{
-	  RTC_read_register_value(&hi2c1, 0x0E, buffer, 1);
-	  HAL_Delay(10);
-  } while(buffer[0] & 0b10000000);
+//  uint8_t buffer[1];
+//  do{
+//	  RTC_read_register_value(&hi2c1, 0x0E, buffer, 1);
+//	  HAL_Delay(10);
+//  } while(buffer[0] & 0b10000000);
 
   HAL_StatusTypeDef status;
 
   //set time to 20 seconds before interrupt
-  uint8_t time[] = {0b01000000,0x00,0x00,0x00,0b00000001,0b00000001,0x00};
+  uint8_t time[] = {0x40,0x00,0x00,0x00,0b00000001,0b00000001,0x00};
   do{ status = RTC_set_register_value(&hi2c1, 0x00, time, 7); HAL_Delay(10); } while(status != HAL_OK);
-
   do{ status = RTC_init(&hi2c1); HAL_Delay(10); } while(status != HAL_OK);
 
   HAL_Delay(25000);
 
+  do{ status = RTC_read_register_value(&hi2c1, 0x07, &after[0], 2); HAL_Delay(10);} while(status != HAL_OK);
+  do{ status = RTC_read_register_value(&hi2c1, 0x0E, &after[2], 1); HAL_Delay(10);} while(status != HAL_OK);
+  do{ status = RTC_read_register_value(&hi2c1, 0x10, &after[3], 1); HAL_Delay(10);} while(status != HAL_OK);
+  do{ status = RTC_read_register_value(&hi2c1, 0x35, &after[4], 1); HAL_Delay(10);} while(status != HAL_OK);
+
+  //set communication pin to HIGH if AIE high, else low
+  if(after[3] & 0b00001000){
+	  HAL_GPIO_WritePin(Com_GPIO_Port, Com_Pin, GPIO_PIN_SET);
+  }else{
+	  HAL_GPIO_WritePin(Com_GPIO_Port, Com_Pin, GPIO_PIN_RESET);
+  }
+
+  HAL_Delay(500);
   RTC_handle_interrupt(&hi2c1);
   /* USER CODE END 2 */
 
@@ -116,6 +128,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+	  HAL_Delay(10);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -228,6 +241,9 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(Com_GPIO_Port, Com_Pin, GPIO_PIN_RESET);
+
   /*Configure GPIO pins : PC13 PC14 PC15 */
   GPIO_InitStruct.Pin = GPIO_PIN_13|GPIO_PIN_14|GPIO_PIN_15;
   GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
@@ -251,16 +267,23 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /*Configure GPIO pins : PB0 PB1 PB2 PB10
-                           PB11 PB12 PB13 PB14
-                           PB3 PB4 PB5 PB6
-                           PB7 PB8 PB9 */
+                           PB11 PB12 PB13 PB3
+                           PB4 PB5 PB6 PB7
+                           PB8 PB9 */
   GPIO_InitStruct.Pin = GPIO_PIN_0|GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_10
-                          |GPIO_PIN_11|GPIO_PIN_12|GPIO_PIN_13|GPIO_PIN_14
-                          |GPIO_PIN_3|GPIO_PIN_4|GPIO_PIN_5|GPIO_PIN_6
-                          |GPIO_PIN_7|GPIO_PIN_8|GPIO_PIN_9;
+                          |GPIO_PIN_11|GPIO_PIN_12|GPIO_PIN_13|GPIO_PIN_3
+                          |GPIO_PIN_4|GPIO_PIN_5|GPIO_PIN_6|GPIO_PIN_7
+                          |GPIO_PIN_8|GPIO_PIN_9;
   GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : Com_Pin */
+  GPIO_InitStruct.Pin = Com_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(Com_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pin : RTC_INT_Pin */
   GPIO_InitStruct.Pin = RTC_INT_Pin;
