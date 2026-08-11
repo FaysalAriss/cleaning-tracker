@@ -43,6 +43,8 @@
 
 I2C_HandleTypeDef hi2c1;
 
+RTC_HandleTypeDef hrtc;
+
 /* USER CODE BEGIN PV */
 
 /* USER CODE END PV */
@@ -51,6 +53,7 @@ I2C_HandleTypeDef hi2c1;
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_I2C1_Init(void);
+static void MX_RTC_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -90,7 +93,11 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_I2C1_Init();
+  MX_RTC_Init();
   /* USER CODE BEGIN 2 */
+  //be able to debug in shutdown mode
+  HAL_DBGMCU_EnableDBGStandbyMode();
+
   //wait until EEbusy low (not busy)
   uint8_t buffer[1];
   do{
@@ -102,18 +109,28 @@ int main(void)
 
   do{ status = RTC_init(&hi2c1); HAL_Delay(10); } while(status != HAL_OK);
 
-  //set time to 5 seconds before interrupt
-  uint8_t time[] = {0x55,0x00,0x00,0x00,0b00000001,0b00000001,0x00};
+  //set time to 35 seconds before interrupt
+  uint8_t time[] = {0x25,0x00,0x00,0x00,0b00000001,0b00000001,0x00};
   do{ status = RTC_set_register_value(&hi2c1, 0x00, time, 7); HAL_Delay(10); } while(status != HAL_OK);
 
   RTC_handle_interrupt(&hi2c1);
+
+  //increment day count (and store it) if woken from RTC/wakeup pin 7
+  if(__HAL_PWR_GET_FLAG(PWR_FLAG_WUF7) == SET){
+	  HAL_PWR_EnableBkUpAccess();
+	  uint32_t dayCount = HAL_RTCEx_BKUPRead(&hrtc, RTC_BKP_DR0); //init value = 0
+	  dayCount++;
+	  HAL_RTCEx_BKUPWrite(&hrtc, RTC_BKP_DR0, dayCount);
+	  HAL_PWR_DisableBkUpAccess();
+  }
+
   //clears the wakeup flags from all pins by writing to power reset register which will clear power status register
   __HAL_PWR_CLEAR_FLAG(PWR_FLAG_WU);
   HAL_Delay(3000); //DO NOT REMOVE, delay so debugger has time to connect and flash
   //Sets SLEEPDEEP bit, LPMS = 1xx in PWR_CR1 register, wakeup on interrupt (WFI)
   HAL_PWR_EnterSHUTDOWNMode();
 
-  //__HAL_PWR_GET_FLAG(PWR_FLAG_WUF7); high if woke up from wakeup pin 7
+
 
   /* USER CODE END 2 */
 
@@ -144,9 +161,10 @@ void SystemClock_Config(void)
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
   */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI|RCC_OSCILLATORTYPE_LSI;
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
   RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
+  RCC_OscInitStruct.LSIState = RCC_LSI_ON;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
   {
@@ -216,6 +234,44 @@ static void MX_I2C1_Init(void)
 }
 
 /**
+  * @brief RTC Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_RTC_Init(void)
+{
+
+  /* USER CODE BEGIN RTC_Init 0 */
+
+  /* USER CODE END RTC_Init 0 */
+
+  /* USER CODE BEGIN RTC_Init 1 */
+
+  /* USER CODE END RTC_Init 1 */
+
+  /** Initialize RTC Only
+  */
+  hrtc.Instance = RTC;
+  hrtc.Init.HourFormat = RTC_HOURFORMAT_24;
+  hrtc.Init.AsynchPrediv = 127;
+  hrtc.Init.SynchPrediv = 255;
+  hrtc.Init.OutPut = RTC_OUTPUT_DISABLE;
+  hrtc.Init.OutPutRemap = RTC_OUTPUT_REMAP_NONE;
+  hrtc.Init.OutPutPolarity = RTC_OUTPUT_POLARITY_HIGH;
+  hrtc.Init.OutPutType = RTC_OUTPUT_TYPE_OPENDRAIN;
+  hrtc.Init.OutPutPullUp = RTC_OUTPUT_PULLUP_NONE;
+  hrtc.Init.BinMode = RTC_BINARY_NONE;
+  if (HAL_RTC_Init(&hrtc) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN RTC_Init 2 */
+
+  /* USER CODE END RTC_Init 2 */
+
+}
+
+/**
   * @brief GPIO Initialization Function
   * @param None
   * @retval None
@@ -232,9 +288,6 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOF_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
-
-  /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(Com_GPIO_Port, Com_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pins : PC13 PC14 PC15 */
   GPIO_InitStruct.Pin = GPIO_PIN_13|GPIO_PIN_14|GPIO_PIN_15;
@@ -259,29 +312,16 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /*Configure GPIO pins : PB0 PB1 PB2 PB10
-                           PB11 PB12 PB13 PB3
-                           PB4 PB5 PB6 PB7
-                           PB8 PB9 */
+                           PB11 PB12 PB13 PB14
+                           PB3 PB4 PB5 PB6
+                           PB7 PB8 PB9 */
   GPIO_InitStruct.Pin = GPIO_PIN_0|GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_10
-                          |GPIO_PIN_11|GPIO_PIN_12|GPIO_PIN_13|GPIO_PIN_3
-                          |GPIO_PIN_4|GPIO_PIN_5|GPIO_PIN_6|GPIO_PIN_7
-                          |GPIO_PIN_8|GPIO_PIN_9;
+                          |GPIO_PIN_11|GPIO_PIN_12|GPIO_PIN_13|GPIO_PIN_14
+                          |GPIO_PIN_3|GPIO_PIN_4|GPIO_PIN_5|GPIO_PIN_6
+                          |GPIO_PIN_7|GPIO_PIN_8|GPIO_PIN_9;
   GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
-
-  /*Configure GPIO pin : Com_Pin */
-  GPIO_InitStruct.Pin = Com_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(Com_GPIO_Port, &GPIO_InitStruct);
-
-  /*Configure GPIO pin : RTC_INT_Pin */
-  GPIO_InitStruct.Pin = RTC_INT_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(RTC_INT_GPIO_Port, &GPIO_InitStruct);
 
   /* USER CODE BEGIN MX_GPIO_Init_2 */
 
