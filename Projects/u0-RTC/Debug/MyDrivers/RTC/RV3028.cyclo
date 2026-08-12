@@ -1,4 +1,4 @@
 ../MyDrivers/RTC/RV3028.c:25:19:RTC_set_register_value	1
 ../MyDrivers/RTC/RV3028.c:36:19:RTC_read_register_value	1
 ../MyDrivers/RTC/RV3028.c:45:19:RTC_handle_interrupt	1
-../MyDrivers/RTC/RV3028.c:55:19:RTC_init	6
+../MyDrivers/RTC/RV3028.c:55:19:RTC_init	5

@@ -107,13 +107,19 @@ int main(void)
 
   HAL_StatusTypeDef status;
 
-  do{ status = RTC_init(&hi2c1); HAL_Delay(10); } while(status != HAL_OK);
+  if(__HAL_RCC_GET_FLAG(RCC_FLAG_PWRRST) == SET){
+	  HAL_Delay(10000);
+	  do{ status = RTC_init(&hi2c1); HAL_Delay(10); } while(status != HAL_OK);
+	  __HAL_RCC_CLEAR_RESET_FLAGS(); //clear so it doesn't trigger on next cycle
+  }
 
-  //set time to 35 seconds before interrupt
-  uint8_t time[] = {0x25,0x00,0x00,0x00,0b00000001,0b00000001,0x00};
+  //set time to 10 seconds before interrupt
+  uint8_t time[] = {0x50,0x00,0x00,0x00,0b00000001,0b00000001,0x00};
   do{ status = RTC_set_register_value(&hi2c1, 0x00, time, 7); HAL_Delay(10); } while(status != HAL_OK);
 
   RTC_handle_interrupt(&hi2c1);
+
+  HAL_Delay(3000); //DO NOT REMOVE, delay so debugger has time to connect and flash
 
   //increment day count (and store it) if woken from RTC/wakeup pin 7
   if(__HAL_PWR_GET_FLAG(PWR_FLAG_WUF7) == SET){
@@ -126,7 +132,7 @@ int main(void)
 
   //clears the wakeup flags from all pins by writing to power reset register which will clear power status register
   __HAL_PWR_CLEAR_FLAG(PWR_FLAG_WU);
-  HAL_Delay(3000); //DO NOT REMOVE, delay so debugger has time to connect and flash
+
   //Sets SLEEPDEEP bit, LPMS = 1xx in PWR_CR1 register, wakeup on interrupt (WFI)
   HAL_PWR_EnterSHUTDOWNMode();
 
