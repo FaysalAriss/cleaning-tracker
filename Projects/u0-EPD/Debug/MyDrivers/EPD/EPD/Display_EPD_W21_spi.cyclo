@@ -1,0 +1,4 @@
+../MyDrivers/EPD/EPD/Display_EPD_W21_spi.c:36:6:SPI_Delay	2
+../MyDrivers/EPD/EPD/Display_EPD_W21_spi.c:43:6:SPI_Write	3
+../MyDrivers/EPD/EPD/Display_EPD_W21_spi.c:62:6:EPD_W21_WriteCMD	1
+../MyDrivers/EPD/EPD/Display_EPD_W21_spi.c:70:6:EPD_W21_WriteDATA	1

@@ -1,3 +1,9 @@
+When making new project
+
+- Make MyDrivers folder a source folder
+
+- Include each folder until the source, need to include each individually. Select project root -> properties -> C/C++ General -> Paths And Symbols -> Includes -> Add then add each
+
 HSE = high speed external clock. The crystal on the PCB
 
 HSIx = high speed internal clock @ xMhz
