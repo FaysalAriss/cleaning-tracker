@@ -9,6 +9,7 @@
 
 //Full screen update display
 void EPD_Init(void); 
+void EPD_Init_Black_Border(void);
 void EPD_Init_180(void);	
 void EPD_WhiteScreen_ALL(const unsigned char *datas);
 void EPD_WhiteScreen_White(void);

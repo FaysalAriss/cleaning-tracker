@@ -203,7 +203,7 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(EPD__PWR_GPIO_Port, EPD__PWR_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(EPD_PWR_GPIO_Port, EPD_PWR_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, EPD_CS_Pin|EPD_DC_Pin|EPD_RST_Pin, GPIO_PIN_RESET);
@@ -242,12 +242,12 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : EPD__PWR_Pin */
-  GPIO_InitStruct.Pin = EPD__PWR_Pin;
+  /*Configure GPIO pin : EPD_PWR_Pin */
+  GPIO_InitStruct.Pin = EPD_PWR_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(EPD__PWR_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(EPD_PWR_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pins : EPD_CS_Pin EPD_DC_Pin EPD_RST_Pin */
   GPIO_InitStruct.Pin = EPD_CS_Pin|EPD_DC_Pin|EPD_RST_Pin;

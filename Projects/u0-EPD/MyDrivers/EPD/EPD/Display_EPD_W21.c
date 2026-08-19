@@ -43,6 +43,22 @@ void EPD_Init(void)
 	EPD_W21_WriteCMD(0X50);  //VCOM AND DATA INTERVAL SETTING			
 	EPD_W21_WriteDATA(0x97); //WBmode:VBDF 17|D7 VBDW 97 VBDB 57		WBRmode:VBDF F7 VBDW 77 VBDB 37  VBDR B7	
 }
+
+//UC8253
+void EPD_Init_Black_Border(void)
+{
+	EPD_W21_RST_0;		// Module reset
+	delay_xms(10);//At least 10ms delay
+	EPD_W21_RST_1;
+	delay_xms(10);//At least 10ms delay
+
+	EPD_W21_WriteCMD(0x04);  //Power on
+	lcd_chkstatus();        //waiting for the electronic paper IC to release the idle signal
+
+	EPD_W21_WriteCMD(0X50);  //VCOM AND DATA INTERVAL SETTING
+	EPD_W21_WriteDATA(0x57); //WBmode:VBDF 17|D7 VBDW 97 VBDB 57		WBRmode:VBDF F7 VBDW 77 VBDB 37  VBDR B7
+}
+
 void EPD_Init_Fast(void) //1.5s
 {	
 	EPD_W21_RST_0;		// Module reset

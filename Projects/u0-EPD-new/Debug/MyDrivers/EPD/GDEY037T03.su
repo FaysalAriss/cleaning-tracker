@@ -1,0 +1,4 @@
+../MyDrivers/EPD/GDEY037T03.c:18:6:EPD_wait_busy	8	static
+../MyDrivers/EPD/GDEY037T03.c:22:19:EPD_write_command	32	static
+../MyDrivers/EPD/GDEY037T03.c:30:19:EPD_write_data	48	static
+../MyDrivers/EPD/GDEY037T03.c:41:19:EPD_driver_init	24	static
