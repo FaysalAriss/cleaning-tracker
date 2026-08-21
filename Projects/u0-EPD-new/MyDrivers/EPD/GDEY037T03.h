@@ -22,16 +22,24 @@ typedef enum{
   BLACK = 0U
 } Pixel_Color;
 
-
 //values based on settings from 0x50
 typedef uint8_t Border_Color;
-#define BORDER_WHITE ((Border_Color) 1U)
-#define BORDER_BLACK ((Border_Color) 2U)
-
+#define BORDER_WHITE ((Border_Color) 0b01U)
+#define BORDER_BLACK ((Border_Color) 0b10U)
+#define BORDER_FLOATING ((Border_Color) 0b11U)
+#define BORDER_COLOR_POSITION 6U //border color bits are [7:6]
 
 typedef uint8_t Power_Command;
 #define POWER_ON ((Power_Command) 0x04U)
 #define POWER_OFF ((Power_Command) 0x02U)
+
+//values based off manufacturer provided code
+typedef enum{
+  FAST_REFRESH = 0x5FU,
+  GRAYSCALE = 0x5AU,
+  MONOCHROME = 0x00U, //only use if previously set to another setting
+  PARTIAL_REFRESH = 0x6EU
+} Refresh_Command;
 
 void EPD_wait_busy(void);
 HAL_StatusTypeDef EPD_write_command(SPI_HandleTypeDef *hspi, uint8_t command);
@@ -44,6 +52,7 @@ HAL_StatusTypeDef EPD_wakeup(SPI_HandleTypeDef *hspi);
 HAL_StatusTypeDef EPD_set_border(SPI_HandleTypeDef *hspi, Border_Color color);
 HAL_StatusTypeDef EPD_refresh(SPI_HandleTypeDef *hspi);
 HAL_StatusTypeDef EPD_fill_screen(SPI_HandleTypeDef *hspi, Pixel_Color color);
+HAL_StatusTypeDef EPD_set_refresh(SPI_HandleTypeDef *hspi, Refresh_Command setting);
 
 
 #endif /* EPD_GDEY037T03_H_ */

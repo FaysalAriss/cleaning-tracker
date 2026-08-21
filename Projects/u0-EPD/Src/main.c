@@ -111,12 +111,12 @@ int main(void)
 	EPD_Init(); //Full screen update initialization.
 	EPD_WhiteScreen_White(); //Clear screen function.
 	EPD_DeepSleep(); //Enter the sleep mode and please do not delete it, otherwise it will reduce the lifespan of the screen.
-	HAL_Delay(8000); //Delay for 2s.
+	HAL_Delay(2000); //Delay for 2s.
 
-	EPD_Init_Black_Border(); //Full screen update initialization.
-	EPD_WhiteScreen_White(); //Clear screen function.
-	EPD_DeepSleep(); //Enter the sleep mode and please do not delete it, otherwise it will reduce the lifespan of the screen.
-	HAL_Delay(8000); //Delay for 2s.
+//	EPD_Init_Black_Border(); //Full screen update initialization.
+//	EPD_WhiteScreen_White(); //Clear screen function.
+//	EPD_DeepSleep(); //Enter the sleep mode and please do not delete it, otherwise it will reduce the lifespan of the screen.
+//	HAL_Delay(8000); //Delay for 2s.
 
 //	/************Full display(2s)*******************/
 //	EPD_Init(); //Full screen updateinitialization.
@@ -125,18 +125,24 @@ int main(void)
 //	HAL_Delay(2000); //Delay for 2s.
 //
 //	/************Fast updatemode(1.5s)*******************/
-//	EPD_Init_Fast(); //Fast updateinitialization.
-//	EPD_WhiteScreen_ALL(gImage_2); //To display one image using fast refresh.
-//	EPD_DeepSleep(); //Enter the sleep mode and please do not delete it, otherwise it will reduce the lifespan of the screen.
-//	HAL_Delay(2000); //Delay for 2s.
-//
-//	/************4 Gray updatemode*******************/
+	EPD_Init_Fast(); //Fast updateinitialization.
+	EPD_WhiteScreen_ALL(gImage_2); //To display one image using fast refresh.
+	EPD_DeepSleep(); //Enter the sleep mode and please do not delete it, otherwise it will reduce the lifespan of the screen.
+	HAL_Delay(2000); //Delay for 2s.
+
+	//	/************4 Gray updatemode*******************/
 //	EPD_Init_4G(); //Fast updateinitialization.
 //	EPD_WhiteScreen_ALL_4G(gImage_4G1); //To display one image using fast refresh.
+//	HAL_Delay(5000);
+//	EPD_WhiteScreen_ALL_4G(gImage_4G1);
+//	HAL_Delay(5000);
+//	EPD_WhiteScreen_ALL_4G(gImage_4G1);
+//	HAL_Delay(5000);
+//	EPD_WhiteScreen_ALL_4G(gImage_4G1);
 //	EPD_DeepSleep(); //Enter the sleep mode and please do not delete it, otherwise it will reduce the lifespan of the screen.
 //	HAL_Delay(2000); //Delay for 2s.
 
-	#if 0
+	#if 1
 		//Partial updatedemostration.
 		//Partial updatedemo support displaying a clock at 5 locations with 00:00.  If you need to perform partial updatemore than 5 locations, please use the feature of using partial updateat the full screen demo.
 		//After 5 partial refreshes, implement a full screen updateto clear the ghosting caused by partial refreshes.

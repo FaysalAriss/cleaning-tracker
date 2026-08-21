@@ -110,7 +110,7 @@ HAL_StatusTypeDef EPD_wakeup(SPI_HandleTypeDef *hspi){
  * @brief  Set the border color on the screen
  */
 HAL_StatusTypeDef EPD_set_border(SPI_HandleTypeDef *hspi, Border_Color color){
-	uint8_t data = color << 6; //use colors for 2 MSBs
+	uint8_t data = color << BORDER_COLOR_POSITION; //use colors for 2 MSBs
 	data |= 0b010111; //keep the bits for the rest of the settings
 	data = 0x97;
 	HAL_TRY(EPD_write_command_data(hspi, 0x50, &data, 1));
@@ -154,5 +154,22 @@ HAL_StatusTypeDef EPD_fill_screen(SPI_HandleTypeDef *hspi, Pixel_Color color){
 		HAL_TRY(EPD_write_data(hspi, &color_byte, 1));
 	}
 
+	return HAL_OK;
+}
+
+/**
+ * @brief  Set the refresh configuration of the screen
+ * @param  setting - configuration to use
+ */
+HAL_StatusTypeDef EPD_set_refresh(SPI_HandleTypeDef *hspi, Refresh_Command setting){
+	uint8_t cascade_setting = setting == MONOCHROME ? 0x00 : 0x02;
+	HAL_TRY(EPD_write_command_data(hspi, 0xE0, &cascade_setting, 1));
+	if(setting != MONOCHROME){
+		uint8_t command = (uint8_t) setting; //ensure the right type
+		HAL_TRY(EPD_write_command_data(hspi, 0xE5, &command, 1));
+		if(setting == PARTIAL_REFRESH){
+			HAL_TRY(EPD_set_border(hspi, BORDER_FLOATING));
+		}
+	}
 	return HAL_OK;
 }

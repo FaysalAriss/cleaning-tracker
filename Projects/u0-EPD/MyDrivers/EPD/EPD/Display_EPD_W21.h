@@ -32,7 +32,8 @@ void EPD_Init_GUI(void);
 void EPD_Display(unsigned char *Image); 
 //4 Gray
 void EPD_Init_4G(void);
-void EPD_WhiteScreen_ALL_4G (const unsigned char *datas);												
+void EPD_WhiteScreen_ALL_4G (const unsigned char *datas);
+void EPD_refresh(void);
 #endif
 
 

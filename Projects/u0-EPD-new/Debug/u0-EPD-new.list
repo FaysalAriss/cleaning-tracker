@@ -27,25 +27,25 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   ALLOC
  11 .ARM.attributes 00000028  00000000  00000000  0000400c  2**0
                   CONTENTS, READONLY
- 12 .debug_info   00007195  00000000  00000000  00004034  2**0
+ 12 .debug_info   00007276  00000000  00000000  00004034  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 13 .debug_abbrev 000016ba  00000000  00000000  0000b1c9  2**0
+ 13 .debug_abbrev 000016ba  00000000  00000000  0000b2aa  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 14 .debug_aranges 000007a8  00000000  00000000  0000c888  2**3
+ 14 .debug_aranges 000007b0  00000000  00000000  0000c968  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 15 .debug_rnglists 000005b7  00000000  00000000  0000d030  2**0
+ 15 .debug_rnglists 000005be  00000000  00000000  0000d118  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_macro  00019704  00000000  00000000  0000d5e7  2**0
+ 16 .debug_macro  0001971c  00000000  00000000  0000d6d6  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_line   000088f9  00000000  00000000  00026ceb  2**0
+ 17 .debug_line   0000894f  00000000  00000000  00026df2  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    000a37e8  00000000  00000000  0002f5e4  2**0
+ 18 .debug_str    000a387b  00000000  00000000  0002f741  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000043  00000000  00000000  000d2dcc  2**0
+ 19 .comment      00000043  00000000  00000000  000d2fbc  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  00001a18  00000000  00000000  000d2e10  2**2
+ 20 .debug_frame  00001a3c  00000000  00000000  000d3000  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 21 .debug_line_str 00000064  00000000  00000000  000d4828  2**0
+ 21 .debug_line_str 00000064  00000000  00000000  000d4a3c  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -5528,7 +5528,7 @@ HAL_StatusTypeDef EPD_set_border(SPI_HandleTypeDef *hspi, Border_Color color){
  8001ebe:	000a      	movs	r2, r1
  8001ec0:	1cfb      	adds	r3, r7, #3
  8001ec2:	701a      	strb	r2, [r3, #0]
-	uint8_t data = color << 6; //use colors for 2 MSBs
+	uint8_t data = color << BORDER_COLOR_POSITION; //use colors for 2 MSBs
  8001ec4:	1cfb      	adds	r3, r7, #3
  8001ec6:	781b      	ldrb	r3, [r3, #0]
  8001ec8:	019b      	lsls	r3, r3, #6

@@ -532,6 +532,13 @@ void EPD_WhiteScreen_ALL_4G (const unsigned char *datas)
    
 }
 
+void EPD_refresh(void){
+	//Refresh
+	EPD_W21_WriteCMD(0x12);		//DISPLAY update
+	delay_xms(1);	             //!!!The delay here is necessary, 200uS at least!!!
+	lcd_chkstatus();          //waiting for the electronic paper IC to release the idle signal
+}
+
 
 
 

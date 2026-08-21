@@ -10,3 +10,4 @@
 ../MyDrivers/EPD/GDEY037T03.c:123:19:EPD_refresh	2
 ../MyDrivers/EPD/GDEY037T03.c:135:16:fill_byte	3
 ../MyDrivers/EPD/GDEY037T03.c:149:19:EPD_fill_screen	5
+../MyDrivers/EPD/GDEY037T03.c:164:19:EPD_set_refresh	7

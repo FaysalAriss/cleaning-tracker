@@ -20,3 +20,4 @@
 ../MyDrivers/EPD/EPD/Display_EPD_W21.c:405:6:EPD_Init_GUI	8	static
 ../MyDrivers/EPD/EPD/Display_EPD_W21.c:422:6:EPD_Display	32	static
 ../MyDrivers/EPD/EPD/Display_EPD_W21.c:453:6:EPD_WhiteScreen_ALL_4G	32	static
+../MyDrivers/EPD/EPD/Display_EPD_W21.c:535:6:EPD_refresh	8	static
