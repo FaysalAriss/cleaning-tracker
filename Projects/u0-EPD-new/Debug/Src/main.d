@@ -26,7 +26,8 @@ Src/main.o: ../Src/main.c ../Inc/main.h \
  ../Drivers/STM32U0xx_HAL_Driver/Inc/stm32u0xx_hal_pwr.h \
  ../Drivers/STM32U0xx_HAL_Driver/Inc/stm32u0xx_hal_pwr_ex.h \
  ../Drivers/STM32U0xx_HAL_Driver/Inc/stm32u0xx_hal_spi.h \
- ../Drivers/STM32U0xx_HAL_Driver/Inc/stm32u0xx_hal_spi_ex.h
+ ../Drivers/STM32U0xx_HAL_Driver/Inc/stm32u0xx_hal_spi_ex.h \
+ ../MyDrivers/EPD/GDEY037T03.h
 ../Inc/main.h:
 ../Drivers/STM32U0xx_HAL_Driver/Inc/stm32u0xx_hal.h:
 ../Inc/stm32u0xx_hal_conf.h:
@@ -56,3 +57,4 @@ Src/main.o: ../Src/main.c ../Inc/main.h \
 ../Drivers/STM32U0xx_HAL_Driver/Inc/stm32u0xx_hal_pwr_ex.h:
 ../Drivers/STM32U0xx_HAL_Driver/Inc/stm32u0xx_hal_spi.h:
 ../Drivers/STM32U0xx_HAL_Driver/Inc/stm32u0xx_hal_spi_ex.h:
+../MyDrivers/EPD/GDEY037T03.h:

@@ -127,7 +127,7 @@ void EPD_DeepSleep(void)
 }
 void Power_off(void)
 {	
-	EPD_W21_WriteCMD(0x02); //POWER ON
+	EPD_W21_WriteCMD(0x02); //POWER off
 	lcd_chkstatus();
 }
 //Full screen updateupdate function

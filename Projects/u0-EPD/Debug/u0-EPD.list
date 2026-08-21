@@ -3998,7 +3998,7 @@ void Power_off(void)
 {	
  8001630:	b580      	push	{r7, lr}
  8001632:	af00      	add	r7, sp, #0
-	EPD_W21_WriteCMD(0x02); //POWER ON
+	EPD_W21_WriteCMD(0x02); //POWER off
  8001634:	2002      	movs	r0, #2
  8001636:	f000 f8ab 	bl	8001790 <EPD_W21_WriteCMD>
 	lcd_chkstatus();

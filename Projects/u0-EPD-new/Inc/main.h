@@ -65,8 +65,8 @@ void Error_Handler(void);
 #define EPD_PWR_GPIO_Port GPIOA
 #define EPD_SCK_Pin GPIO_PIN_3
 #define EPD_SCK_GPIO_Port GPIOB
-#define EPD_MOSI_Pin GPIO_PIN_5
-#define EPD_MOSI_GPIO_Port GPIOB
+#define EPD_SDA_Pin GPIO_PIN_5
+#define EPD_SDA_GPIO_Port GPIOB
 #define EPD_CS_Pin GPIO_PIN_6
 #define EPD_CS_GPIO_Port GPIOB
 #define EPD_DC_Pin GPIO_PIN_7

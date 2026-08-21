@@ -1,4 +1,12 @@
-../MyDrivers/EPD/GDEY037T03.c:18:6:EPD_wait_busy	2
-../MyDrivers/EPD/GDEY037T03.c:22:19:EPD_write_command	2
-../MyDrivers/EPD/GDEY037T03.c:30:19:EPD_write_data	2
-../MyDrivers/EPD/GDEY037T03.c:41:19:EPD_driver_init	1
+../MyDrivers/EPD/GDEY037T03.c:28:6:EPD_wait_busy	2
+../MyDrivers/EPD/GDEY037T03.c:36:19:EPD_write_command	2
+../MyDrivers/EPD/GDEY037T03.c:49:19:EPD_write_data	3
+../MyDrivers/EPD/GDEY037T03.c:66:19:EPD_write_command_data	3
+../MyDrivers/EPD/GDEY037T03.c:74:19:EPD_set_power	2
+../MyDrivers/EPD/GDEY037T03.c:83:19:EPD_deepsleep	3
+../MyDrivers/EPD/GDEY037T03.c:93:6:EPD_reset	1
+../MyDrivers/EPD/GDEY037T03.c:103:19:EPD_wakeup	2
+../MyDrivers/EPD/GDEY037T03.c:112:19:EPD_set_border	2
+../MyDrivers/EPD/GDEY037T03.c:123:19:EPD_refresh	2
+../MyDrivers/EPD/GDEY037T03.c:135:16:fill_byte	3
+../MyDrivers/EPD/GDEY037T03.c:149:19:EPD_fill_screen	5
